@@ -13,10 +13,15 @@
 <insert id="insert" parameterType="com.szmsd.jxy.model.CustomerRecommend">
     insert into tab_推荐注册表
     <trim prefix="(" suffix=")" suffixOverrides="," >
-    记录编号,被推荐人客户编号,邀请码,推荐时间,推荐人邮箱,
+        @for(user in map){
+            ${user.value},
+        @}
+        }
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
-     #{id},#{customerNo}, #{invitationCode},sysdate,#{reEmail},
+        @for(user in map){
+            #{${user.key}},
+        @}
     </trim>
 </insert>
 </mapper>
