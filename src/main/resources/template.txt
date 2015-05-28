@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.szmsd.jxy.dao.WaybillDao" >
+<resultMap type="com.szmsd.jxy.model.Waybill" id="resultMap">
+    @for(user in map){
+        @if(userLP.first){
+        <id property="${user.key}" column="${user.value}" jdbcType="VARCHAR" />
+        @}else{
+        <result property="${user.key}" column="${user.value}" jdbcType="VARCHAR" />
+        @}
+    @}
+</resultMap>
+<insert id="insert" parameterType="com.szmsd.jxy.model.CustomerRecommend">
+    insert into tab_推荐注册表
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    记录编号,被推荐人客户编号,邀请码,推荐时间,推荐人邮箱,
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides="," >
+     #{id},#{customerNo}, #{invitationCode},sysdate,#{reEmail},
+    </trim>
+</insert>
+</mapper>
