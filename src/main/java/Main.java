@@ -19,14 +19,14 @@ public class Main {
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
         Template t = gt.getTemplate("/template.txt");
 
-        Map<String,String> map = buildMap();
+        Map<String,String> map = buildMap(User.class);
         t.binding("map",map);
         String str = t.render();
         System.out.println(str);
     }
-    public static Map<String,String> buildMap(){
+    public static Map<String,String> buildMap(Class c){
         Map<String,String> map = new LinkedHashMap<String, String>();
-        Field[] fields=User.class.getDeclaredFields();
+        Field[] fields=c.getDeclaredFields();
         for(Field field : fields){
             Commit commit=field.getAnnotation(Commit.class);
             String key = field.getName();
