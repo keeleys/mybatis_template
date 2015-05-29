@@ -1,27 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.szmsd.jxy.dao.WaybillDao" >
-<resultMap type="com.szmsd.jxy.model.Waybill" id="resultMap">
-    @for(user in map){
-        @if(userLP.first){
-        <id property="${user.key}" column="${user.value}" jdbcType="VARCHAR" />
-        @}else{
-        <result property="${user.key}" column="${user.value}" jdbcType="VARCHAR" />
-        @}
+<mapper namespace="${className}Dao" >
+<resultMap type="${className}" id="resultMap">
+    @if(!isEmpty(tableId)){
+    <id property="${tableId.field}" column="${tableId.column}" jdbcType="VARCHAR" />
+    @}
+    @for(user in fields){
+    <result property="${user.key}" column="${user.value}" jdbcType="VARCHAR" />
     @}
 </resultMap>
-<insert id="insert" parameterType="com.szmsd.jxy.model.CustomerRecommend">
-    insert into tab_推荐注册表
+<insert id="insert" parameterType="${className}">
+    insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
-        @for(user in map){
-            ${user.value},
+        @for(field in fields){
+        <if test="${field.key}!=null and ${field.key}!='' ">
+        ${field.value},
+        </if>
         @}
         }
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
-        @for(user in map){
-            #{${user.key}},
+        @for(field in fields){
+        <if test="${field.key}!=null and ${field.key}!='' ">
+        #{${field.key}},
+        </if>
         @}
     </trim>
 </insert>
+<select id="select" resultMap="resultMap">
+	select * from ${tableName} where 1=1
+	 @for(p in params){
+    <if test="${p.key}!=null and ${p.key}!='' ">
+    		and ${p.value} = #{${p.key}}
+    </if>
+      @}
+</select>
+<delete id="deleteByIds">
+   delete from ${tableName} where  ${tableId.column!id} IN
+    <foreach item="idItem" collection="array" open="(" separator="," close=")">
+   	#{idItem}
+   	</foreach>
+</delete>
+<update id="update">
+    update  ${tableName} set
+    <trim   suffixOverrides="," >
+        @for(field in fields){
+            <if test="${field.key}!=null and ${field.key}!='' ">
+            ${field.value}=#{${field.key}},
+            </if>
+        @}
+        }
+    </trim>
+    where ${tableId.column!id} = #{${tableId.field!}}
+</update>
 </mapper>
