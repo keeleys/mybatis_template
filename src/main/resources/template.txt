@@ -20,7 +20,6 @@
         ${field.value},
         </if>
         @}
-        }
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
         @if(!isEmpty(tableId)){
@@ -55,7 +54,6 @@
             ${field.value}=#{${field.key}},
             </if>
         @}
-        }
     </trim>
     where ${tableId.column!id} = #{${tableId.field!}}
 </update>
