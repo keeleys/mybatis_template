@@ -12,6 +12,9 @@
 <insert id="insert" parameterType="${className}">
     insert into ${tableName}
     <trim prefix="(" suffix=")" suffixOverrides="," >
+        @if(!isEmpty(tableId)){
+        ${tableId.column},
+        @}
         @for(field in fields){
         <if test="${field.key}!=null and ${field.key}!='' ">
         ${field.value},
@@ -20,6 +23,9 @@
         }
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
+        @if(!isEmpty(tableId)){
+        #{${tableId.field}},
+        @}
         @for(field in fields){
         <if test="${field.key}!=null and ${field.key}!='' ">
         #{${field.key}},
