@@ -32,7 +32,7 @@
         @}
     </trim>
 </insert>
-<select id="select" resultMap="resultMap">
+<select id="list" resultMap="resultMap">
 	select * from ${tableName} where 1=1
 	 @for(p in params){
     <if test="${p.key}!=null and ${p.key}!='' ">
