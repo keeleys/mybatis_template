@@ -16,9 +16,7 @@
         ${tableId.column},
         @}
         @for(field in fields){
-        <if test="${field.key}!=null and ${field.key}!='' ">
-        ${field.value},
-        </if>
+        <if test="${field.key}!=null and ${field.key}!='' ">${field.value},</if>
         @}
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides="," >
@@ -26,19 +24,15 @@
         #{${tableId.field}},
         @}
         @for(field in fields){
-        <if test="${field.key}!=null and ${field.key}!='' ">
-        #{${field.key}},
-        </if>
+        <if test="${field.key}!=null and ${field.key}!='' "> #{${field.key}},</if>
         @}
     </trim>
 </insert>
 <select id="list" resultMap="resultMap">
 	select * from ${tableName} where 1=1
-	 @for(p in params){
-    <if test="${p.key}!=null and ${p.key}!='' ">
-    		and ${p.value} = #{${p.key}}
-    </if>
-      @}
+	@for(p in params){
+    <if test="${p.key}!=null and ${p.key}!='' ">and ${p.value} = #{${p.key}}</if>
+    @}
 </select>
 <delete id="deleteByIds">
    delete from ${tableName} where  ${tableId.column!id} IN
@@ -50,9 +44,7 @@
     update  ${tableName} set
     <trim   suffixOverrides="," >
         @for(field in fields){
-            <if test="${field.key}!=null and ${field.key}!='' ">
-            ${field.value}=#{${field.key}},
-            </if>
+        <if test="${field.key}!=null and ${field.key}!='' "> ${field.value}=#{${field.key}},</if>
         @}
     </trim>
     where ${tableId.column!id} = #{${tableId.field!}}
